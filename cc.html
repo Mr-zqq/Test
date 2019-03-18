@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>表单验证</title>
+<style>
+body{font-size:12px;font-family:宋体;color:#333;}
+span.red{color:#f00;font-size:12px;}
+span.green{color:#0f0;font-size:12px;}
+</style>
+<script type="text/javascript">
+function check(){
+	var uesrName=document.getElementById("userName");
+	var pwd=document.getElementById("pwd");
+	var email=document.getElementById("email");
+	var sex=document.getElementsByName("sex");
+	var sl=document.getElementById("sl");
+	var pl=document.getElementById("pl");
+	if(userName.value==""){
+		document.getElementById("userNameYz").innerHTML="用户名不能为空";
+		event.returnValue=false;
+		}
+     if(pwd.value==""){
+			document.getElementById("pwdYz").innerHTML="密码不能为空";
+			event.returnValue=false;
+			}
+       if(email.value==""){
+				document.getElementById("emailYz").innerHTML="email不能为空";
+				event.returnValue=false;
+				}
+				if(!(sex[0].checked||sex[1].checked)){
+					document.getElementById("sexYz").innerHTML="请选择性别";
+					event.returnValue=false;
+					}
+					else{
+						document.getElementById("sexYz").innerHTML="格式正确"
+						document.getElementById("sexYz").className="green";
+						}
+					if(sl.options[0].selected){
+						document.getElementById("slYz").innerHTML="请选择城市";
+						event.returnValue=false;
+						}
+						else{
+							document.getElementById("slYz").innerHTML="格式正确";
+						document.getElementById("slYz").className="green";
+							}
+						if(pl.value="请输入评论,不能超过300个字符"){
+							document.getElementById("plYz").innerHTML="请输入评论";
+							event.returnValue=false;
+							}
+							
+	}
+function checknull(ole){
+	if(ole.value.length<6){
+		document.getElementById("userNameYz").innerHTML="用户名不能少于6个字符";
+		document.getElementById("userNameYz").className="red";
+		}
+		else{
+			document.getElementById("userNameYz").innerHTML="格式正确";
+			document.getElementById("userNameYz").className="green";
+			}
+	}
+function checkpwd(ole){
+	
+	if(ole.value.length<6){
+		document.getElementById("pwdYz").innerHTML="密码不能少于6位";
+		document.getElementById("pwdYz").className="red";
+		}
+		else{
+			document.getElementById("pwdYz").innerHTML="格式正确";
+			document.getElementById("pwdYz").className="green";
+			}
+	}
+	function checkpwd2(){
+		var test=document.getElementById("pwd2");
+		if(pwd.value!==test.value){
+			document.getElementById("pwd1Yz").innerHTML="两次密码不一样";
+			document.getElementById("pwd1Yz").className="red";
+			pwd2.value="";
+			pwd.focus();
+			}
+			else{
+				document.getElementById("pwd1Yz").innerHTML="两次密码一样";
+				document.getElementById("pwd1Yz").className="green";
+				}
+		}
+	function checkemail(){
+		var email=/^[a-zA-Z]{1}[0-9a-zA-Z_]{6,}$/;
+		var zc=new RegExp(email);
+		if (zc.test(document.getElementById("email").value)!=true){
+			document.getElementById("emailYz").innerHTML="email格式不正确";
+			document.getElementById("emailYz").className="red";
+			}
+			else{
+				document.getElementById("emailYz").innerHTML="格式正确";
+				document.getElementById("emailYz").className="green";
+				}
+		}
+		function showpl(){
+				
+				var pl=document.getElementById("pl");
+			if(pl.value!="请输入评论,不能超过300个字符"){
+				pl.value=pl.value;}
+				else{
+					pl.value="";
+					}
+				
+				}
+		function checksum(){
+		
+			var pl=document.getElementById("pl");
+			if(pl.value=="请输入评论,不能超过300个字符"){
+				pl.value="请输入评论,不能超过300个字符";
+				}
+				else{
+					pl.value=pl.value;
+					}
+						}
+		
+		function totlesum(){
+			var pl=document.getElementById("pl");
+			if(pl.value.length<=300){
+				document.getElementById("plYz").innerHTML=pl.value.length+"字";
+				document.getElementById("plYz").className="red";
+				
+				}
+				else{
+				pl.value=pl.value.substring(0,300);
+					}
+			
+			}
+</script>
+</head>
+<body>
+<form id="form" onsubmit="check();">
+用户名：<input type="text" id="userName" onblur="checknull(this);" /><span id="userNameYz" class="red">*</span><br>
+密码：<input type="password" id="pwd" onblur="checkpwd(this);"><span id="pwdYz" class="red">*</span><br>
+确认密码：<input type="password" id="pwd2" onblur="checkpwd2();"><span id="pwd1Yz" class="red">*</span><br>
+E-mail：<input type="text" id="email" onblur="checkemail();"><span id="emailYz" class="red">*</span><br>
+性别：<input type="radio" value="nan" name="sex">男
+<input type="radio" value="nv" name="sex">女<span id="sexYz" class="red">*</span><br>
+请选择城市：<select id="sl">
+<option selected="selected">请选择城市</option>
+<option value="hz">杭州</option>
+<option  value="bj">北京</option>
+<option  value="sh">上海</option>
+<option  value="hd">邯郸</option>
+</select><span id="slYz" class="red">*</span><br>
+评论：<textarea cols="40" rows="10" id="pl" onblur="checksum();" onkeyup="totlesum();" onfocus="showpl();">
+请输入评论,不能超过300个字符
+</textarea><span id="plYz" class="red">*</span><br>
+<input type="submit" id="submit" value="提交">
+</form>
+</body>
+</html>
