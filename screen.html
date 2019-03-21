@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+#lis{
+    margin: 0 auto;
+    display: flex;
+    width: 310px;
+}
+
+#lis li{
+    list-style: none;
+    width: 100px;
+    line-height: 30px;
+    border: 1px solid red;
+    text-align: center;
+}
+#lis1,#lis2,#lis3,#lis0{
+    width: 310px;
+    margin: 0 auto;
+
+}
+#lis1 li,#lis2 li,#lis3 li,#lis0 li{
+    list-style: none;
+    line-height: 30px;
+    width: 310px;;
+    border: 1px solid red;
+    
+}
+#cc{
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+    background: red;
+    color: #ffffff;
+    margin: 0 auto;
+    text-align: center;
+}
+#red{
+    background: red;
+}
+
+</style>
+
+<body>
+
+    <p id="cc">
+        <!-- <a href="">全部</a> -->
+    <span></span>
+    <span></span>
+    <span></span>
+    </p>
+    <div>
+        <ul id="lis">
+            <li>男</li>
+            <li>女</li>
+            <li>人妖</li>
+        </ul>
+        <ul id="lis0"></ul>
+        <ul id="lis1">
+
+        </ul>
+        <ul id="lis2"></ul>
+        <ul id="lis3"></ul>
+    </div>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var menu_data = [{
+                    "menuid": "全为",
+                    "menuname": "客户自助",
+
+                    "parent": "人妖",
+                    "level": "好笑"
+                },
+                {
+                    "menuid": "周童",
+                    "menuname": "售后服务",
+
+                    "parent": "人妖",
+                    "level": "1"
+                },
+                {
+                    "menuid": "3",
+                    "menuname": "产品列表",
+
+                    "parent": "女",
+                    "level": "2"
+                },
+                {
+                    "menuid": "4",
+                    "menuname": "我的意向单",
+
+                    "parent": "女",
+                    "level": "2"
+                },
+                {
+                    "menuid": "5",
+                    "menuname": "我的合同",
+
+                    "parent": "女",
+                    "level": "2"
+                },
+                {
+                    "menuid": "6",
+                    "menuname": "我的服务单",
+
+                    "parent": "男",
+                    "level": "2"
+                },
+                {
+                    "menuid": "7",
+                    "menuname": "我的投诉建议",
+
+                    "parent": "男",
+                    "level": "2"
+                },
+                {
+                    "menuid": "8",
+                    "menuname": "我的预警查询",
+                    "parent": "男",
+                    "level": "2"
+                }
+            ];
+            var cc = document.getElementById("cc");
+            var cd=cc.getElementsByTagName("span");
+            var lis0 = document.getElementById("lis0");
+            var lis1 = document.getElementById("lis1");
+            var lis2 = document.getElementById("lis2");
+            var lis3 = document.getElementById("lis3");
+
+            var lis = document.getElementById("lis");
+            var liss = lis.getElementsByTagName("li");
+            for (var i = 0; i < menu_data.length; i++) {
+
+                lis0.innerHTML += "<li>" + menu_data[i].menuid + menu_data[i].menuname + menu_data[i].parent +
+                    menu_data[i].level + "</li>";
+            }
+
+            //筛选level=1的对象
+            var menu_node1 = menu_data.filter(function (e) {
+                return e.parent == "男";
+            });
+            var menu_node2 = menu_data.filter(function (e) {
+                return e.parent == "女";
+            });
+            var menu_node3 = menu_data.filter(function (e) {
+                return e.parent == "人妖";
+            });
+
+            //遍历结果对象
+
+
+            for (var i = 0; i < liss.length; i++) {
+                liss[i].index = i;
+                var a = 0;
+                var b = 0;
+                var c = 0;
+                liss[i].onclick = function () {
+                    
+                    lis0.innerHTML = "";
+                    if (this.index == 0) {
+                        if (a % 2 == 0) {
+                            this.id = "red";
+                        } else {
+                            this.id = "";
+
+                        }
+                    }
+                    if (this.index == 1) {
+                        if (b % 2 == 0) {
+                            this.id = "red";
+                        } else {
+                            this.id = "";
+
+                        }
+                    }
+                    if (this.index == 2) {
+                        if (c % 2 == 0) {
+                            this.id = "red";
+                        } else {
+                            9
+                            this.id = "";
+
+                        }
+                    }
+                    if ("男" == liss[this.index].innerHTML) {
+                        if (a % 2 == 0) {
+                            for (var i = 0; i < menu_node1.length; i++) {
+
+                                lis1.innerHTML += "<li>" + menu_node1[i].menuid + menu_node1[i].menuname +
+                                    menu_node1[i].parent + menu_node1[i].level + "</li>";
+                            }
+                           
+                            cd[this.index].innerHTML=liss[this.index].innerHTML;
+                        } else {
+                            lis1.innerHTML = "";
+                            cd[this.index].innerHTML="";
+                            
+                        }
+                        a++;
+                    }
+                    if ("女" == liss[this.index].innerHTML) {
+                        if (b % 2 == 0) {
+                            for (var i = 0; i < menu_node2.length; i++) {
+
+                                lis2.innerHTML += "<li>" + menu_node2[i].menuid + menu_node2[i].menuname +
+                                    menu_node2[i].parent + menu_node2[i].level + "</li>";
+
+                            }
+                            cd[this.index].innerHTML=liss[this.index].innerHTML;
+
+                        } else {
+                            lis2.innerHTML = "";
+                            cd[this.index].innerHTML="";
+                        }
+                        b++;
+                    }
+                    if ("人妖" == liss[this.index].innerHTML) {
+                        if (c % 2 == 0) {
+                            for (var i = 0; i < menu_node3.length; i++) {
+                                // console.log(menu_node1[i].menuname);
+                                lis3.innerHTML += "<li>" + menu_node3[i].menuid + menu_node3[i].menuname +
+                                    menu_node3[i].parent + menu_node3[i].level + "</li>";
+
+                            }
+                            cd[this.index].innerHTML=liss[this.index].innerHTML;
+
+                        } else {
+                            lis3.innerHTML = "";
+                            cd[this.index].innerHTML="";
+                        }
+                        c++
+                    }
+
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
