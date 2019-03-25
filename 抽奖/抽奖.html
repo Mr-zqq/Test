@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>抽奖</title>
+</head>
+<style>
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        width: 320px;
+        height: 320px;
+        list-style: none;
+        justify-content: space-between;
+    }
+
+    li {
+        background: red;
+        text-align: center;
+        color: #ffffff;
+        line-height: 100px;
+        width: 100px;
+        height: 100px;
+        border: 1px solid yellow;
+        cursor: pointer;
+    }
+
+    #pink {
+        background: pink;
+    }
+</style>
+
+<body>
+    <div id="cs">
+        <ul>
+            <li class="c1" id="pink">1</li>
+            <li class="c1">2</li>
+            <li class="c1">3</li>
+            <li class="c1">4</li>
+            <li id="c2">抽奖</li>
+            <li class="c1">5</li>
+            <li class="c1">6</li>
+            <li class="c1">7</li>
+            <li class="c1">8</li>
+          
+
+        </ul>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script>
+        var timer = null;
+        // var ul=document.getElementsByTagName("ul")[0];
+        // var c1=ul.getElementsByClassName("c1");
+        // var c2=ul.getElementsByClassName("c2")[0];
+        // var c3=document.getElementById("c3");
+        var a = 0;
+        var c = 0;
+        var k = 2;
+
+        function choujiang() {
+            console.log(a);
+            if (a == 7) {
+                a = -1;
+                $(".c1")[c + 1].id = "";
+                a++;
+                $(".c1")[a].id = "pink";
+            } else {
+                c = a;
+                a++;
+                cc();
+            }
+
+        }
+        $("#c2").click(function () {
+            if (k % 2 == 0) {
+                timer = setInterval(choujiang, 100);
+            } else {
+                clearTimeout(timer);
+            }
+            k++;
+        });
+        // 定时器
+        function cc() {
+
+            // c1[a].id="pink";
+            $(".c1")[c].id = "";
+            $(".c1")[a].id = "pink";
+        }
+    </script>
+</body>
+
+</html>
