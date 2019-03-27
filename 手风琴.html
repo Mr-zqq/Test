@@ -94,16 +94,23 @@
     </ul>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script>
-        var i=2;
+        var i = 2;
         $(".dianji").click(function () {
-        if(i%2==0&&$(".xianshi").css("displiy==none")){
-            $(this).next().slideDown(200).parent().siblings().children("div").slideUp(200);
+            // console.log($(this).next().css("display"));
+            if (i % 2 == 0) {
 
-        }else{
-            $(this).next().slideUp(200);
-        }
-        console.log(i);
-      i++;
+                $(this).next().slideDown(200).parent().siblings().children("div").slideUp(200);
+                // console.log(i);
+            } else {
+                if ($(this).next().css("display") == "none") {
+                    $(this).next().slideDown(200).parent().siblings().children("div").slideUp(200);
+                    i++
+                } else {
+                    $(this).next().slideUp(200);
+                }
+            }
+            console.log(i);
+            i++;
         })
     </script>
 </body>
