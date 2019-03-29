@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    ul,li{
+        list-style: none;
+    }
+.box{
+    width: 590px;
+    height: 470px;
+    overflow: hidden;
+    position: relative;
+    left: 0;
+    top: 0;
+    margin: 50px auto;
+}
+.box ul{
+    width: 900%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.box ul li{
+    width: 590px;
+    height: 470px;
+}
+.box ul li img{
+    display: block;
+    width: 590px;
+    height: 470px;
+}
+.left{
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background: #666;
+    font-size: 28px;
+    line-height: 30px;
+    text-align: center;
+    z-index: 10;
+}
+.right{
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    background: #666;
+    font-size: 28px;
+    line-height: 30px;
+    text-align: center;
+}
+</style>
+<body>
+    <div class="box">
+        <div class="left"><</div>
+        <ul>
+            
+            <li><img src="img/轮播1.jpg" alt=""></li>
+            <li><img src="img/轮播2.jpg" alt=""></li>
+            <li><img src="img/轮播3.jpg" alt=""></li>
+            <li><img src="img/轮播4.jpg" alt=""></li>
+            <li><img src="img/轮播5.jpg" alt=""></li>
+            <li><img src="img/轮播6.jpg" alt=""></li>
+            <li><img src="img/轮播7.jpg" alt=""></li>
+            <li><img src="img/轮播8.jpg" alt=""></li>
+            <li><img src="img/轮播1.jpg" alt=""></li>
+        </ul>
+        <div class="right">></div>
+        <div>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script>
+        var i = 0;
+        var timer = null;
+
+        // move();
+        var t = setInterval(function () {
+             i++; 
+             move();
+            },2000);
+
+        function move() {
+            if(i==8){
+                i=0;
+                $(".box ul").animate({ left: i * -590 +"px"}, 1);
+            }
+                    $(".box ul").animate({ left: i * -590 +"px"}, 1000);
+                    clearInterval();
+                }
+
+        $(".right").click(function(){
+            // i++;
+            move();
+        })
+        
+    </script>
+</body>
+</html>
