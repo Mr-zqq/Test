@@ -1,301 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <title>分页器</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;padding: 0;
+        }
+        ul li{
+            list-style: none;
+        }
+        .main{
+            height:200px;
+            display: flex;
+        }
+        .allList{
+            display: inline-block;
+        }
+        .section p{
+            height: 100px; width: 100px;
+            line-height: 100px;text-align: center;
+            background: linear-gradient(to left,skyblue,yellow);
+            font-size: 40px;font-weight: bold;
+        }
+        a{
+            display: inline-block;
+            padding: 3px 10px;
+            margin-left: 3px;
+            text-decoration: none;
+            color:#fff;
+            background: blueviolet;
+        }
+    </style>
 </head>
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-    }
-.pager-box:after{
- display:block;
- height:0;
- visibility:hidden;
- clear:both;
- content:'';
-}
-.pager{
- float:left;
- position:relative;
- left:50%;
- font-family:微软雅黑;
-}
-.pager a,.pager span{
- position:relative;
- left:-50%;
- display:block;
- float:left;
- margin-left:5px;
- border:1px solid #b6bcc1;
- padding: 5px 10px;
- text-decoration:none;
- color:#b6bcc1;
- border-radius:3px;
-}
-.pager span{
- border:0;
-}
-.pager a.js-selected{
- background:#b6bcc1;
- color:#fff;
- cursor:default;
-}
-.pager a.js-disabled{
- background:#f1f1f1;
- border-color:#f1f1f1;
- cursor:default;
- color:#fff;
-}
-
-</style>
-
 <body>
+    <div class="box">
+        <div class="main">
+        </div>
+        <p class="pages">当前是第 1 页</p>
+        <div class="btns">
+            <a href="javascript:;" class="frist">首页</a>
+            <a href="javascript:;" class="back">上一页</a>
+            <div class="allList"></div>
+            <a href="javascript:;" class="go">下一页</a>
+            <a href="javascript:;" class="last">尾页</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script>
+        let allJson = {
+            main:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49]
+        }
+        // 当前页
+        let page = 1;
+        // 显示多少条数据
+        let numDate = 3;
+        // 总页数
+        let pageCount = Math.ceil(allJson.main.length/numDate);
+        // 输出原始内容
+        for(let i = 0;i < numDate;i++){
+            $(".main").append(`<div class="section"><p>${allJson.main[i]}</p></div>`);
+        }
+        for(let i = 1;i <= pageCount ;i++){
+            $(".allList").append(`<a href="javascript:;"> ${i}</a>`);
+        }
+        // 后一页
+        $(".go").click(function(){
+            if(page < pageCount){
+                show(page+1);
+            }else{
+                alert("已是最后一页")
+            }
+        })
+        // 前一页
+        $(".back").click(function(){
 
+            if(page !=1){
+                show(page-1);
+            }else{
+                alert("已是第一页")
+            }
+        })
+        // 去最后一页
+        $(".last").click(function(){
+            show(pageCount);
+        })
+        // 第一页
+        $(".frist").click(function(){
+            show(1);
+        })
+        // 页数点击
+        $(".allList a").click(function(){
+            show($(this).index()+1)
+        })
 
- <div id="pager"></div>
-
-
- <script>
- function doChangePage(obj){
-  //TO DO
- }
- 
- var pagerBox = document.getElementById("pager");
- 
- var pager = new Pager({
-  index: 1,
-  total: 15,
-  parent: pagerBox,
-  onchange: doChangePage
- });
- 
- (function(window, undefined){
- 
- /**
- * 创建元素节点并返回
- */
- function create(tagName, className, parent){
- var element = document.createElement(tagName);
- element.className = className;
- parent.appendChild(element);
- return element;
- }
- 
- /**
- * 数组消除重复
- */
- function clearRepeat(arr){
- var obj = {},
-  result = [];
- for(var i = 0, len = arr.length; i < len; i++){
-  obj[arr[i]] = 1;
- }
- for(var i in obj){
-  result.push(i);
- }
- return result;
- }
- 
- /**
- * 添加类名
- */
- function addClassName(element, className){
- var aClass = element.className.split(' ');
- aClass.push(className);
- aClass = clearRepeat(aClass);
- element.className = aClass.join(' ');
- }
- /**
- * 删除类名
- */
- function delClassName(element, className){
- var aClass = element.className.split(' '),
-  index = aClass.indexOf(className);
- if(index > 0) aClass.splice(index, 1);
- element.className = aClass.join(' ');
- }
- 
- /**
- * 检查是否含有类名
- * @param element
- * @param className
- * @returns {boolean}
- */
- function hasClassName(element, className){
- var aClass = element.className.split(' '),
-  index = aClass.indexOf(className);
- if(index > 0) return true;
- return false;
- }
- 
- var Pager = function(obj){
- 
- this.__total = obj.total || 1;
- this.__index = obj.index || 1;
- this.__parent = obj.parent;
- this.__onchange = obj.onchange;
- //初始化分页器
- this.__init(obj);
- 
- };
- 
- var pro = Pager.prototype;
- /**
- * 初始化分页器
- */
- pro.__init = function(obj){
- if(this.__total < this.__index) return;
- //存储数字
- this.__numbers = [];
- //储存省略号
- this.__dots = [];
- this.__wrapper = create('div', 'pager-box', this.__parent);
- this.__body = create('div', 'pager', this.__wrapper);
- //存储上一页
- this.__preBtn = create('a', 'prev', this.__body);
- this.__preBtn.href = 'javascript:void(0);';
- this.__preBtn.innerText = (obj.label && obj.label.prev) || '上一页';
- //存储数字
- if(this.__total < 8){
-  for(var i = 0; i < this.__total; i++){
-  var t = create('a', 'number', this.__body);
-  t.href = 'javascript:void(0);';
-  t.innerText = i + 1;
-  this.__numbers.push(t);
-  }
- }else{
-  for(var i = 0; i < 2; i++){
-  var t = create('span', 'dots', this.__body);
-  t.innerText = '...';
-  this.__dots.push(t);
-  };
-  for(var i = 0; i < 7; i++){
-  var t = create('a', 'number', this.__body);
-  t.href = 'javascript:void(0);';
-  this.__numbers.push(t);
-  }
- 
- }
- //存储下一页
- this.__nextBtn = create('a', 'next', this.__body);
- this.__nextBtn.href = 'javascript:void(0);';
- this.__nextBtn.innerText = (obj.label && obj.label.next) || '下一页';
- //
- this._$setIndex(this.__index);
- //
- this.__body.onclick = this.__doClick.bind(this);
- };
- 
- pro.__doClick = function(e){
- var e = e || window.event,
-  target = e.target || e.srcElement;
- //点击省略号
- if(target.tagName.toLowerCase() == 'span') return;
- //点击了不能点击的上一页或者下一页
- if(hasClassName(target, 'js-disabled')) return;
- //点击了当前页
- if(hasClassName(target, 'js-selected')) return;
- 
- if(target == this.__preBtn){
-  //点击了上一页
-  this._$setIndex(this.__index - 1);
- }else if(target == this.__nextBtn){
-  //点击了下一页
-  this._$setIndex(this.__index + 1);
- }else{
-  //点击了数字
-  var index = target.innerText;
-  this._$setIndex(index);
- }
- 
- };
- 
- /**
- * 跳转页数
- */
- pro._$setIndex = function(index){
- 
- index = parseInt(index);
- //更新信息
- if(index != this.__index){
-  this.__last = this.__index;
-  this.__index = index;
- }
- //处理
- delClassName(this.__preBtn, 'js-disabled');
- delClassName(this.__nextBtn, 'js-disabled');
- if(this.__total < 8){
-  //总页数小于8的情况
-  if(this.__last) delClassName(this.__numbers[this.__last - 1], 'js-selected');
-  addClassName(this.__numbers[this.__index - 1], 'js-selected');
-  if(this.__index == 1) addClassName(this.__preBtn, 'js-disabled');
-  if(this.__index == this.__total) addClassName(this.__nextBtn, 'js-disabled');
- 
- }else{
-  this.__dots[0].style.display = 'none';
-  this.__dots[1].style.display = 'none';
-  for(var i = 0; i < 7; i++){
-  delClassName(this.__numbers[i], 'js-selected');
-  };
-  if(this.__index < 5){
-  for(var i = 0; i < 6; i++){
-   this.__numbers[i].innerText = i + 1;
-  }
-  this.__numbers[6].innerText = this.__total;
-  this.__dots[1].style.display = 'block';
-  this.__body.insertBefore(this.__dots[1], this.__numbers[6]);
-  addClassName(this.__numbers[this.__index - 1], 'js-selected');
-  if(this.__index == 1) addClassName(this.__preBtn, 'js-disabled');
-  }else if(this.__index > this.__total - 4){
-  for(var i = 1; i < 7; i++){
-   this.__numbers[i].innerText = this.__total + i -6;
-  }
-  this.__numbers[0].innerText = '1';
-  this.__dots[0].style.display = 'block';
-  this.__body.insertBefore(this.__dots[0], this.__numbers[1]);
-  addClassName(this.__numbers[this.__index + 6 - this.__total], 'js-selected');
-  if(this.__index == this.__total) addClassName(this.__nextBtn, 'js-disabled');
-  }else{
-  this.__numbers[0].innerText = '1';
-  for(var i = 1; i < 6; i++){
-   this.__numbers[i].innerText = this.__index - 3 + i;
-   if(i == 3) addClassName(this.__numbers[i], 'js-selected');
-  }
-  this.__numbers[6].innerText = this.__total;
-  this.__dots[0].style.display = 'block';
-  this.__body.insertBefore(this.__dots[0], this.__numbers[1]);
-  this.__dots[1].style.display = 'block';
-  this.__body.insertBefore(this.__dots[1], this.__numbers[6]);
-  }
- 
- }
- if(typeof this.__onchange == 'function'){
-  this.__onchange({
-  index: this.__index,
-  last: this.__last,
-  total: this.__total
-  })
- }
- 
- };
- /**
- * 得到总页数
- */
- pro._$getIndex = function(){
- return this.__index;
- };
- /**
- * 得到上一个页数
- */
- pro._$getLast = function(){
- return this.__last;
- };
- //变成全局
- window.Pager = Pager;
- 
-})(window);
- </script>
+        // 显示某页内容
+        function show(cPage){
+            page = cPage;
+            $(".main").empty();
+            for(let i = 0;i <numDate;i++){
+                // 显示完所有数据则跳出循环
+                if(i + (page - 1) * numDate>=allJson.main.length){
+                    break;
+                }else{
+                    // 循环输出当前页内容
+                    $(".main").append(`<div class="section"><p>${allJson.main[i + (page-1) * numDate]}</p></div>`);
+                }
+            }
+            $(".pages").text(`当前是第 ${page} 页 `);
+        }
+    </script>
 </body>
 </html>
